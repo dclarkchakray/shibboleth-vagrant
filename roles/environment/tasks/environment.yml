@@ -31,3 +31,7 @@
       with_items:
         - { src: 'java.sh.j2', dest: 'java.sh' }
         - { src: 'maven.sh.j2', dest: 'maven.sh' }
+
+    - name: Flush firewall rules
+      command: iptables -F
+      when: iptables_flush == true

@@ -23,3 +23,4 @@ ldap_url: "ldap://localhost:389"
 ldap_base_dn: ou=People,dc=vagrant,dc=local
 ldap_manager: cn=manager,dc=vagrant,dc=local
 ldap_password: Password1
+iptables_flush: true
