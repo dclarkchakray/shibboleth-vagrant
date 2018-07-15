@@ -4,7 +4,8 @@ Vagrant box - Shibboleth IdP3 + SP 2.x testing environment
 Shibboleth SP / IdP are almost on factory settings. ~~So IdP wont release any attributes to the SP.~~ IdP will release couple of attributes to the Shibboleth SP (uid, mail, sn, cn, givenName)
 
 ## Prereqs
-* Virtualbox (or other vagrant compliant virtualization "engine")
+- Vagrant 2.0.x ([https://www.vagrantup.com/]())
+- Virtual Box 5.2.x ([https://www.virtualbox.org/]())
 
 ## This Vagrant box includes following packages / applications:
 * CentOS 6.4
@@ -23,28 +24,17 @@ All programs are provisioned to vagrant box with [Ansible](https://www.google.co
 
 # Installation
 
-Before you can run this box you need to install Vagrant and Ansible to your host computer:
-### Ansible
+Install the Vagrant Nugrant Plugin
 
-#### Mac
-* https://valdhaus.co/writings/ansible-mac-osx/
+vagrant plugin install nugrant
 
-#### Linux
-* http://docs.ansible.com/intro_installation.html
-
-#### Windows (Not tested) w\ cygwin
-* https://servercheck.in/blog/running-ansible-within-windows
-EDIT:
-Tested with these instructions + (https://github.com/geerlingguy/JJG-Ansible-Windows/blob/master/windows.sh), but nogo.
-I will investigate this later
-- Founded way to tackle this problem. Will test and push changes.
-
-### Vagrant
-* http://www.vagrantup.com/downloads
+Copy .vagrantuser_dist to .vagrantuser and update to your local values
 
 # Configuration
 
 You need to add Vagrant box ip address to the hosts-file (linux /etc/hosts, windows c:\windows\system32\drivers\etc\hosts)
+
+Change this value to your hostname as defined in the .vagrantuser, by default this uses vagrant.local in the following steps replace this with your hostname
 
 ```
 192.168.0.120 vagrant.local

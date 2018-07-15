@@ -1,10 +1,12 @@
 
 .DS_Store
+.*.swp
 
 # Vagrant stuff
 acceptance_config.yml
 boxes/*
 /.vagrant
+.vagrantuser
 
 # Bundler/Rubygems
 *.gem

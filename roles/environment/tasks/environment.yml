@@ -1,5 +1,23 @@
 ---
-    - name: Install apache, mod_ssl, wget, vim, unzip
+    # On CentOS, epel-release is available in the default repositories. Therefore,
+    # ius-release can just resolve the dependency automatically. On RHEL (or other
+    # RHEL clones) you will need to explicitly install epel-release first. This
+    # task can be moved to it's own play if you want to be able to require it
+    # independently of the IUS state declaration.
+
+    - name: install EPEL release package for RHEL
+      yum:
+        name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+        state: latest
+      when: ansible_distribution == 'Red Hat Enterprise Linux'
+
+    - set_fact:
+        ius_distribution_abbrev: "{{ (ansible_distribution == 'CentOS') | ternary('centos', 'rhel') }}"
+
+    - name: upgrade all packages
+      yum: name=* state=latest
+
+    - name: Install apache, mod_ssl, wget, vim, unzip, git
       yum: pkg={{ item }} state=present
       with_items:
       - vim-enhanced
@@ -7,6 +25,7 @@
       - mod_ssl
       - wget
       - unzip
+      - git
 
     - name: Create download directory
       file: path={{ download_dir }} state=directory
@@ -19,12 +38,14 @@
         url:     "{{ java_download_location }}"
         headers: 'Cookie:oraclelicense=accept-securebackup-cookie'
         dest:    "{{ download_dir }}/{{ java_download_file }}"
+        timeout: 3600
 
     - name: Download JCE
       get_url:
         url:     "{{ java_jce_download_location }}"
         headers: 'Cookie:oraclelicense=accept-securebackup-cookie'
         dest:    "{{ download_dir }}/{{ java_jce_download_file }}" 
+        timeout: 3600
     
     - name: Create profile.d files
       template: src=profile.d/{{ item.src }} dest=/etc/profile.d/{{ item.dest }}
