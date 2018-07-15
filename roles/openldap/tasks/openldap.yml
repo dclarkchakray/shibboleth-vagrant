@@ -21,9 +21,7 @@
       with_items:
       - ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f {{ download_dir }}/config.ldif
       - ldapadd -c -x -w Password1 -D cn=manager,dc=vagrant,dc=local -H ldapi:/// -f {{ download_dir }}/base.ldif
-      - echo "LDAP Modified and Configured, remove this file for ansible to re-configure" > /var/log/ldap-configured.log
-      args:
-        creates: /var/log/ldap-configured.log 
+      ignore_errors: True
       notify: restart openldap
 
     - name: Copy phpLdapAdmin config
