@@ -14,7 +14,7 @@
     unarchive: src={{ download_dir }}/apache-tomcat-{{ tomcat_version }}.tar.gz dest={{ tomcat_installdir }}/ copy=no
 
   - name: Extract java
-    unarchive: src={{ download_dir }}/jdk-8u45-linux-x64.tar.gz dest={{ java_installdir }} copy=no
+    unarchive: src={{ download_dir }}/jdk-8u172-linux-x64.tar.gz dest={{ java_installdir }} copy=no
 
   - name: Create java symlink
     file: path={{ java_installdir }}/java
@@ -23,7 +23,7 @@
           force=yes
 
   - name: Extract JCE
-    command: 'unzip -oj {{ download_dir }}/jce_policy-8.zip -d {{ java_installdir }}/jdk{{ java_version }}/jre/lib/security/'
+    unarchive: src={{ download_dir }}/{{ java_jce_download_file }} dest={{ java_installdir }}/jdk{{ java_version }}/jre/lib/security copy=no
 
   - name: Copy Tomcats server.xml
     template: src=server.xml.j2
