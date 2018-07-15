@@ -39,12 +39,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         layer.vm.hostname = details.hostname
         layer.vm.synced_folder ".", "/vagrant", :mount_options => ["dmode=777", "fmode=666"]
 
-        if details.install_google_authenticator == false
-          layer.vm.provision "shell", privileged: false, :args => "#{details.install_google_authenticator}", inline: <<-EOF
-            echo "Local server address is $1"
-          EOF
-        end
-
         layer.vm.provision "ansible_local" do |ansible|
           ansible.compatibility_mode = "2.0"
           ansible.playbook = "site.yml"
@@ -53,6 +47,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           if details.install_google_authenticator != "true"
             ansible.skip_tags = "totp-authenticator"
           end
+
+          ansible.extra_vars = {
+            hostname: details.hostname
+          }
+          
         end
      end
   end

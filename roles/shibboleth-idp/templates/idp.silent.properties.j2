@@ -1,5 +1,5 @@
 idp.noprompt="true"
-idp.host.name=vagrant.local
+idp.host.name="{{ hostname }}
 idp.src.dir={{ shib_installdir }}/shibboleth-identity-provider-{{ shib_idp_version }}/
 idp.target.dir={{ shib_installdir }}/shibboleth-idp/
 idp.merge.properties={{ shib_installdir }}/shibboleth-identity-provider-{{ shib_idp_version }}/bin/idp.properties

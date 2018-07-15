@@ -10,7 +10,7 @@ SSLRandomSeed connect builtin
 SSLCryptoDevice builtin
 
 <VirtualHost *:443>
-  ServerName vagrant.local
+  ServerName {{ hostname }}
   ErrorLog /var/log/httpd/ssl_error_log
   LogLevel warn
   CustomLog /var/log/httpd/ssl_access.log combined
