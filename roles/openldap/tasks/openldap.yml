@@ -7,6 +7,12 @@
       - openldap-servers
       - phpldapadmin
 
+    - name: Rsyslog configuration
+      template: src=rsyslog.d/{{ item.src }} dest=/etc/rsyslog.d/{{ item.dest }}
+      with_items:
+        - { src: 'ldap.conf.j2', dest: 'ldap.conf' }
+      notify: restart rsyslog
+
     - name: Enable service slapd
       service: name=slapd enabled=yes state=started
 
@@ -20,6 +26,7 @@
       command: "{{ item }}"
       with_items:
       - ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f {{ download_dir }}/config.ldif
+      - ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f {{ download_dir }}/logging.ldif
       - ldapadd -c -x -w Password1 -D cn=manager,dc=vagrant,dc=local -H ldapi:/// -f {{ download_dir }}/base.ldif
       ignore_errors: True
       notify: restart openldap

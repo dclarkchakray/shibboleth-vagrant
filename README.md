@@ -68,6 +68,18 @@ After authentication you will be redirected back to https://vagrant.local/secure
 # Manage
 You can use phpLdapAdmin application to manage users that are allowed to authenticate. It can be found https://vagrant.local/ldapadmin. Authenticate with user: "cn=manager,dc=vagrant,dc=local" password: "Password1"
 
+# Debugging LDAP
+Ldap debugging is on by default has been enabled and the log files are available in the host:
+
+$>vagrant ssh
+$>tail -f /var/log/ldap.log
+
+To see an individual request emptying out the existing log file:
+
+$>cat /dev/null > /var/log/ldap.log
+
+Then action the request and review the file as there will be a large amount of debug information.
+
 # File locations
 
 * Shibboleth IdP - /opt/shibboleth-idp
