@@ -12,13 +12,9 @@
 
   - name: Extract tomcat
     unarchive: src={{ download_dir }}/apache-tomcat-{{ tomcat_version }}.tar.gz dest={{ tomcat_installdir }}/ copy=no
-    args:
-      creates: "{{ tomcat_installdir }}"
 
   - name: Extract java
     unarchive: src={{ download_dir }}/{{ java_download_file }} dest={{ java_installdir }} copy=no
-    args:
-      creates: "{{ java_installdir }}"
 
   - name: Create java symlink
     file: path={{ java_installdir }}/java
@@ -28,8 +24,6 @@
 
   - name: Extract JCE
     unarchive: src={{ download_dir }}/{{ java_jce_download_file }} dest={{ java_installdir }}/jdk{{ java_version }}/jre/lib/security copy=no 
-    args:
-      creates: "{{ java_installdir }}/jdk{{ java_version }}/jre/lib/security"
 
   - name: Copy Tomcats server.xml
     template: src=server.xml.j2
