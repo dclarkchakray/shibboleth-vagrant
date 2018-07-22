@@ -14,8 +14,8 @@
     - set_fact:
         ius_distribution_abbrev: "{{ (ansible_distribution == 'CentOS') | ternary('centos', 'rhel') }}"
 
-    - name: upgrade all packages
-      yum: name=* state=latest
+    #- name: upgrade all packages
+    #  yum: name=* state=latest
 
     - name: Install apache, mod_ssl, wget, vim, unzip, git
       yum: pkg={{ item }} state=present

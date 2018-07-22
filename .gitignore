@@ -36,3 +36,5 @@ downloads/*
 # Sublime projects
 *.sublime-workspace
 *.sublime-project
+
+shibboleth-vagrant.retry

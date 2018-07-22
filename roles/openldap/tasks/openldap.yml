@@ -30,12 +30,21 @@
       - ldapadd -c -x -w Password1 -D cn=manager,dc=vagrant,dc=local -H ldapi:/// -f {{ download_dir }}/base.ldif
       ignore_errors: True
       notify: restart openldap
+      args:
+        creates: /opt/ldap-configured.info
 
     - name: Configure OpenLDAP with additional ldifs
       command: "ldapadd -Q -Y EXTERNAL -H ldapi:/// -f {{ download_dir }}/{{ item }}"
       with_items: "{{ ldap_additional_ldiff }}"
       ignore_errors: True
       notify: restart openldap
+      args:
+        creates: /opt/ldap-configured.info
+
+    - name: Configured LDAP
+      file: path=/opt/ldap-configured.info  state=touch
+      register: ldap_configured
+      changed_when: ldap_configured.diff.before.state != "file"
 
     - name: Copy phpLdapAdmin config
       template: src=phpldapadmin.conf.j2 dest=/etc/httpd/conf.d/phpldapadmin.conf
